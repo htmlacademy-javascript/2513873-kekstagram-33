@@ -1,40 +1,21 @@
 // Функция проверки длины строки
 
-const stringText = 'Проверяющая строка для теста функции';
-
-function getLengthString(stringName, stringLength) {
-  if (stringLength > 10 & stringLength <= 50) {
-    return true;
-  }
-  return false;
+function getLengthString(stringText, stringLength) {
+  return stringText.length <= stringLength;
 }
-
-getLengthString(stringText, stringText.length);
+getLengthString('Проверяющая строка для теста функции', 50);
 
 // Функция проверки на палиндромность
-let stringTest = '';
-let result = '';
 
 function getStringSame(string) {
-  const stringNoSpaces = string.replaceAll(' ', '');
-  const stringNormalize = stringNoSpaces.toLowerCase();
+  let stringTest = '';
+  const stringNormalize = string.replaceAll(' ', '').toLowerCase();
 
-
-  // Не смогла добиться результата этим способом
-  for (let i = stringNormalize.length - 1; i > stringNormalize[0]; i--) {
+  for (let i = stringNormalize.length - 1; i >= 0; i--) {
     stringTest += stringNormalize[i];
   }
 
-  // А на этот выдаёт ошибку "Strings must use singlequote", хотя всё работает
-  // stringTest = stringNormalize.split("").reverse().join("");
-
-  if (stringNormalize === stringTest) {
-    result = true;
-  } else {
-    result = false;
-  }
-
-  return result;
+  return stringNormalize === stringTest;
 }
 
 getStringSame('Лёша на полке клопа нашёл ');
