@@ -20,20 +20,15 @@ function getStringSame(string) {
 
 getStringSame('Лёша на полке клопа нашёл ');
 
-// Попытка создания функция извлечения чисел из строк
-let stringResult = '';
-let stringParse = '';
+// Функция извлечения чисел из строк
 
 function getNumbers(stringToNumber) {
   stringToNumber.toString();
+  let stringResult = '';
   for (let i = 0; i <= stringToNumber.length - 1; i++) {
-    if (stringToNumber[i].isNaN) {
-      continue;
-    } else {
-      stringParse += stringToNumber[i];
-      stringResult = parseInt(stringParse, 10);
-    }
+    if (!Number.isNaN(parseInt(stringToNumber[i], 10))) {
+    stringResult += stringToNumber[i]}
   }
-  return stringResult;
+  return parseInt(stringResult, 10);
 }
 getNumbers('2024 год очень знаменателен, в отличие от 2023го');
