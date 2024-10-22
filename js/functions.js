@@ -27,7 +27,8 @@ function getNumbers(stringToNumber) {
   let stringResult = '';
   for (let i = 0; i <= stringToNumber.length - 1; i++) {
     if (!Number.isNaN(parseInt(stringToNumber[i], 10))) {
-    stringResult += stringToNumber[i]}
+      stringResult += stringToNumber[i];
+    }
   }
   return parseInt(stringResult, 10);
 }
