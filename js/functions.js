@@ -1,13 +1,13 @@
 // Функция проверки длины строки
 
-function getLengthString(stringText, stringLength) {
+function compareLengthOfStrings(stringText, stringLength) {
   return stringText.length <= stringLength;
 }
-getLengthString('Проверяющая строка для теста функции', 50);
+compareLengthOfStrings('Проверяющая строка для теста функции', 50);
 
 // Функция проверки на палиндромность
 
-function getStringSame(string) {
+function checkIdentical(string) {
   let stringTest = '';
   const stringNormalize = string.replaceAll(' ', '').toLowerCase();
 
@@ -18,11 +18,11 @@ function getStringSame(string) {
   return stringNormalize === stringTest;
 }
 
-getStringSame('Лёша на полке клопа нашёл ');
+checkIdentical('Лёша на полке клопа нашёл ');
 
 // Функция извлечения чисел из строк
 
-function getNumbers(stringToNumber) {
+function extractTheNumbers(stringToNumber) {
   stringToNumber.toString();
   let stringResult = '';
   for (let i = 0; i <= stringToNumber.length - 1; i++) {
@@ -32,4 +32,4 @@ function getNumbers(stringToNumber) {
   }
   return parseInt(stringResult, 10);
 }
-getNumbers('2024 год очень знаменателен, в отличие от 2023го');
+extractTheNumbers('2024 год очень знаменателен, в отличие от 2023го');
