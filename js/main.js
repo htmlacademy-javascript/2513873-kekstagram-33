@@ -41,11 +41,11 @@ function createRandomId(a, b) {
     return currentValue;
   };
 }
-const getRandomeMessage = createRandomId(1, 100);
 
 const createUsersComment = () => {
   const randomNameIndex = getRandomInteger(0, userName.length - 1);
   const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
+  const getRandomeMessage = createRandomId(1, 100);
   const getRandomeAvatar = createRandomId(1, 6);
 
   return {
