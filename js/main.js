@@ -1,6 +1,3 @@
-// В файле main.js напишите необходимые функции для создания массива из 25 сгенерированных объектов.
-// Каждый объект массива — описание фотографии, опубликованной пользователем.
-
 const userName = [
   'Полли',
   'Харитон',
@@ -53,7 +50,7 @@ const createUsersComment = () => {
 
   return {
     id: getRandomeMessage(),
-    avatar: '', // 'img/avatar-' + getRandomeAvatar() + '.svg'
+    avatar: '', // `img/avatar-${ getRandomeAvatar() }.svg`
     message: commentsList[randomMessageIndex],
     name: userName[randomNameIndex],
   };
@@ -73,5 +70,5 @@ const photoSpecification = () => {
     comments,
   };
 };
-photoSpecification();
-// const similarPhotoSpecifications = Array.from({length: 25}, photoSpecification);
+const similarPhotoSpecifications = Array.from({length: 25}, photoSpecification);
+console.log(similarPhotoSpecifications);
