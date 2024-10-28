@@ -42,15 +42,15 @@ function createRandomId(a, b) {
   };
 }
 const getRandomeMessage = createRandomId(1, 100);
-// const getRandomeAvatar = createRandomId(1, 6);
 
 const createUsersComment = () => {
   const randomNameIndex = getRandomInteger(0, userName.length - 1);
   const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
+  const getRandomeAvatar = createRandomId(1, 6);
 
   return {
     id: getRandomeMessage(),
-    avatar: '', // `img/avatar-${ getRandomeAvatar() }.svg`
+    avatar: `img/avatar-${ getRandomeAvatar() }.svg`,
     message: commentsList[randomMessageIndex],
     name: userName[randomNameIndex],
   };
