@@ -56,9 +56,8 @@ const createUsersComment = () => {
   };
 };
 
-const comments = Array.from({ length: getRandomInteger(0, 30) }, createUsersComment);
-
 const photoSpecification = () => {
+  const comments = Array.from({ length: getRandomInteger(0, 30) }, () => (createUsersComment()));
   const getRandomePhotoId = createRandomId(1, 25);
   const getLikesQuantity = createRandomId(15, 200);
 
