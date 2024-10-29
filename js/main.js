@@ -23,12 +23,16 @@ const commentsList = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+// Получаем случайные целые числа из диапазона
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
+
+// Проверка на уникальность случайных целых чисел
 
 function createRandomId(a, b) {
   const previousValues = [];
@@ -52,7 +56,7 @@ const createUsersComment = () => {
 
   return {
     id: getMessage,
-    avatar: `img/avatar-` + getAvatar + `.svg`,
+    avatar: `img/avatar-${ getAvatar }.svg`,
     message: commentsList[randomMessageIndex],
     name: userNames[randomNameIndex],
   };
@@ -69,11 +73,11 @@ const photoSpecification = () => {
 
   return {
     id: getPhotoID,
-    url: `photos` + getPhotoNumber + `.jpg`,
+    url: `photos${ getPhotoNumber }.jpg`,
     description: 'Авторское фото нашего прекрасного пользователя',
     likes: getLikesQuantity,
     comments,
   };
 };
 const similarPhotoSpecifications = () => Array.from({length: 25}, () => (photoSpecification()));
-console.log(similarPhotoSpecifications());
+similarPhotoSpecifications();
