@@ -53,7 +53,6 @@ const createUsersComment = () => {
   const getCommentId = getRandomeCommentId();
   const getRandomeAvatar = createRandomId(1, 6);
   const getAvatar = getRandomeAvatar();
-  getCommentId++;
 
   return {
     id: getCommentId,
@@ -63,7 +62,7 @@ const createUsersComment = () => {
   };
 };
 
-const photoSpecification = () => {
+const photoSpecification = (_value, index) => {
   const comments = Array.from({ length: getRandomInteger(0, 30) }, () => (createUsersComment()));
   const getRandomePhotoId = createRandomId(1, 25);
   const getPhotoID = getRandomePhotoId();
@@ -73,7 +72,7 @@ const photoSpecification = () => {
   const getPhotoNumber = getRandomePhotoNumber();
 
   return {
-    id: getPhotoID,
+    id: index + 1,
     url: `photos${ getPhotoNumber }.jpg`,
     description: 'Авторское фото нашего прекрасного пользователя',
     likes: getLikesQuantity,
@@ -82,3 +81,4 @@ const photoSpecification = () => {
 };
 const similarPhotoSpecifications = () => Array.from({length: 25}, () => (photoSpecification()));
 similarPhotoSpecifications();
+console.log(similarPhotoSpecifications());
