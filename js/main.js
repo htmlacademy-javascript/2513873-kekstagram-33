@@ -1,4 +1,4 @@
-const userName = [
+const userNames = [
   'Полли',
   'Харитон',
   'Руслана',
@@ -43,7 +43,7 @@ function createRandomId(a, b) {
 }
 
 const createUsersComment = () => {
-  const randomNameIndex = getRandomInteger(0, userName.length - 1);
+  const randomNameIndex = getRandomInteger(0, userNames.length - 1);
   const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
   const getRandomeMessage = createRandomId(1, 100);
   const getRandomeAvatar = createRandomId(1, 6);
@@ -52,7 +52,7 @@ const createUsersComment = () => {
     id: getRandomeMessage(),
     avatar: `img/avatar-${ getRandomeAvatar() }.svg`,
     message: commentsList[randomMessageIndex],
-    name: userName[randomNameIndex],
+    name: userNames[randomNameIndex],
   };
 };
 
@@ -70,4 +70,5 @@ const photoSpecification = () => {
     comments,
   };
 };
-const similarPhotoSpecifications = Array.from({length: 25}, photoSpecification);
+const similarPhotoSpecifications = () => Array.from({length: 25}, photoSpecification);
+console.log(similarPhotoSpecifications());
