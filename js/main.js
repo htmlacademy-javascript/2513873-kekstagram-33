@@ -49,13 +49,14 @@ function createRandomId(a, b) {
 const createUsersComment = () => {
   const randomNameIndex = getRandomInteger(0, userNames.length - 1);
   const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
-  const getRandomeMessage = createRandomId(1, 100);
-  const getMessage = getRandomeMessage();
+  const getRandomeCommentId = createRandomId(1, 100);
+  const getCommentId = getRandomeCommentId();
   const getRandomeAvatar = createRandomId(1, 6);
   const getAvatar = getRandomeAvatar();
+  getCommentId++;
 
   return {
-    id: getMessage,
+    id: getCommentId,
     avatar: `img/avatar-${ getAvatar }.svg`,
     message: commentsList[randomMessageIndex],
     name: userNames[randomNameIndex],
