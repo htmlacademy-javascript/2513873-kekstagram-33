@@ -64,8 +64,8 @@ const createUsersComment = () => {
 
 const photoSpecification = (_value, index) => {
   const comments = Array.from({ length: getRandomInteger(0, 30) }, () => (createUsersComment()));
-  const getRandomePhotoId = createRandomId(1, 25);
-  const getPhotoID = getRandomePhotoId();
+  // const getRandomePhotoId = createRandomId(1, 25);
+  // const getPhotoID = getRandomePhotoId();
   const getRandomeLikesQuantity = createRandomId(15, 200);
   const getLikesQuantity = getRandomeLikesQuantity();
   const getRandomePhotoNumber = createRandomId(1, 25);
@@ -81,4 +81,3 @@ const photoSpecification = (_value, index) => {
 };
 const similarPhotoSpecifications = () => Array.from({length: 25}, () => (photoSpecification()));
 similarPhotoSpecifications();
-console.log(similarPhotoSpecifications());
