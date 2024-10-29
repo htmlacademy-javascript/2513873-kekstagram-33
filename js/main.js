@@ -46,11 +46,13 @@ const createUsersComment = () => {
   const randomNameIndex = getRandomInteger(0, userNames.length - 1);
   const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
   const getRandomeMessage = createRandomId(1, 100);
+  const getMessage = getRandomeMessage();
   const getRandomeAvatar = createRandomId(1, 6);
+  const getAvatar = getRandomeAvatar();
 
   return {
-    id: getRandomeMessage(),
-    avatar: `img/avatar-${ getRandomeAvatar() }.svg`,
+    id: getMessage,
+    avatar: `img/avatar-` + getAvatar + `.svg`,
     message: commentsList[randomMessageIndex],
     name: userNames[randomNameIndex],
   };
@@ -59,15 +61,19 @@ const createUsersComment = () => {
 const photoSpecification = () => {
   const comments = Array.from({ length: getRandomInteger(0, 30) }, () => (createUsersComment()));
   const getRandomePhotoId = createRandomId(1, 25);
-  const getLikesQuantity = createRandomId(15, 200);
+  const getPhotoID = getRandomePhotoId();
+  const getRandomeLikesQuantity = createRandomId(15, 200);
+  const getLikesQuantity = getRandomeLikesQuantity();
+  const getRandomePhotoNumber = createRandomId(1, 25);
+  const getPhotoNumber = getRandomePhotoNumber();
 
   return {
-    id: getRandomePhotoId(),
-    url: `photos-${ getRandomePhotoId() }.jpg`,
+    id: getPhotoID,
+    url: `photos` + getPhotoNumber + `.jpg`,
     description: 'Авторское фото нашего прекрасного пользователя',
-    likes: getLikesQuantity(),
+    likes: getLikesQuantity,
     comments,
   };
 };
-const similarPhotoSpecifications = () => Array.from({length: 25}, photoSpecification);
+const similarPhotoSpecifications = () => Array.from({length: 25}, () => (photoSpecification()));
 console.log(similarPhotoSpecifications());
