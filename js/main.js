@@ -63,6 +63,7 @@ const createUsersComment = () => ({
 });
 
 //функция, которая возвращает массив комментариев
+
 const createComments = () => {
   const commentsAmount = getRandomNumber(COMMENTS_MIN, COMMENTS_MAX);
   return Array.from({ length: commentsAmount }, createUsersComment);
