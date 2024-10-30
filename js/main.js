@@ -62,17 +62,17 @@ const createUsersComment = () => {
   };
 };
 
-const photoSpecification = (_value, index) => {
-  const comments = Array.from({ length: getRandomInteger(0, 30) }, () => (createUsersComment()));
-  // const getRandomePhotoId = createRandomId(1, 25);
-  // const getPhotoID = getRandomePhotoId();
+const photoSpecification = () => {
+  const comments = Array.from({ length: getRandomInteger(0, 30) }, createUsersComment);
+  const getRandomePhotoId = createRandomId(1, 25);
+  const getPhotoID = getRandomePhotoId();
   const getRandomeLikesQuantity = createRandomId(15, 200);
   const getLikesQuantity = getRandomeLikesQuantity();
   const getRandomePhotoNumber = createRandomId(1, 25);
   const getPhotoNumber = getRandomePhotoNumber();
 
   return {
-    id: index + 1,
+    id: getPhotoID,
     url: `photos${ getPhotoNumber }.jpg`,
     description: 'Авторское фото нашего прекрасного пользователя',
     likes: getLikesQuantity,
