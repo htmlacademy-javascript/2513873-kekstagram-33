@@ -1,4 +1,14 @@
-const userNames = [
+// Основные числовые данные
+const PHOTOS_MIN = 1;
+const PHOTOS_MAX = 25;
+const LIKES_MIN = 15;
+const LIKES_MAX = 200;
+const COMMENTS_MIN = 0;
+const COMMENTS_MAX = 30;
+const AVATAR_MIN = 1;
+const AVATAR_MAX = 6;
+
+const USER_NAMES = [
   'Полли',
   'Харитон',
   'Руслана',
@@ -15,7 +25,8 @@ const userNames = [
   'Лилиана'
 ];
 
-const commentsList = [
+const COMMENTS_LIST = [
+  'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
@@ -23,61 +34,50 @@ const commentsList = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-// Получаем случайные целые числа из диапазона
-
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+// фукция генерации случайного числа
+const getRandomNumber = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// Проверка на уникальность случайных целых чисел
-
-function createRandomId(a, b) {
-  const previousValues = [];
+// создание уникального идентификатора ID
+const getSequentNumber = () => {
+  let lastNumber = 0;
   return function () {
-    let currentValue = getRandomInteger(a, b);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(a, b);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-}
-
-const createUsersComment = () => {
-  const randomNameIndex = getRandomInteger(0, userNames.length - 1);
-  const randomMessageIndex = getRandomInteger(0, commentsList.length - 1);
-  const getRandomeCommentId = createRandomId(1, 100);
-  const getCommentId = getRandomeCommentId();
-  const getRandomeAvatar = createRandomId(1, 6);
-  const getAvatar = getRandomeAvatar();
-
-  return {
-    id: getCommentId,
-    avatar: `img/avatar-${ getAvatar }.svg`,
-    message: commentsList[randomMessageIndex],
-    name: userNames[randomNameIndex],
+    lastNumber++;
+    return lastNumber;
   };
 };
 
-const photoSpecification = () => {
-  const comments = Array.from({ length: getRandomInteger(0, 30) }, createUsersComment);
-  const getRandomePhotoId = createRandomId(1, 25);
-  const getPhotoID = getRandomePhotoId();
-  const getRandomeLikesQuantity = createRandomId(15, 200);
-  const getLikesQuantity = getRandomeLikesQuantity();
-  const getRandomePhotoNumber = createRandomId(1, 25);
-  const getPhotoNumber = getRandomePhotoNumber();
+// фукция выбора случайного элемента из массива
+const getRandomElement = (elements) => elements[getRandomNumber(elements.length - 1, 0)];
 
-  return {
-    id: getPhotoID,
-    url: `photos${ getPhotoNumber }.jpg`,
-    description: 'Авторское фото нашего прекрасного пользователя',
-    likes: getLikesQuantity,
-    comments,
-  };
+const getCommentId = getSequentNumber();
+
+const createUsersComment = () => ({
+  id: getCommentId(),
+  avatar: `img/avatar-${ getRandomNumber(AVATAR_MIN, AVATAR_MAX) }.svg`,
+  message: getRandomElement(COMMENTS_LIST),
+  name: getRandomElement(USER_NAMES),
+});
+
+//функция, которая возвращает массив комментариев
+const createComments = () => {
+  const commentsAmount = getRandomNumber(COMMENTS_MIN, COMMENTS_MAX);
+  return Array.from({ length: commentsAmount }, createUsersComment);
 };
-const similarPhotoSpecifications = () => Array.from({length: 25}, () => (photoSpecification()));
+
+const getPhotoId = getSequentNumber(PHOTOS_MIN, PHOTOS_MAX);
+const getPhotoNumber = getSequentNumber(PHOTOS_MIN, PHOTOS_MAX);
+
+const photoSpecification = () => ({
+  id: getPhotoId(),
+  url: `photos/${ getPhotoNumber() }.jpg`,
+  description: 'Авторское фото нашего прекрасного пользователя',
+  likes: getRandomNumber(LIKES_MIN, LIKES_MAX),
+  comments: createComments(),
+});
+
+const similarPhotoSpecifications = () => Array.from({ length: 25 }, photoSpecification);
 similarPhotoSpecifications();
