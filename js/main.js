@@ -69,4 +69,3 @@ const photoSpecification = (_value, index) => {
 
 const similarPhotoSpecifications = () => Array.from({ length: 25 }, photoSpecification);
 similarPhotoSpecifications();
-console.log(similarPhotoSpecifications());
