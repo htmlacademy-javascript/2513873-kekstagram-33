@@ -1,10 +1,20 @@
 // Основные числовые данные
-const LIKES_MIN = 15;
-const LIKES_MAX = 200;
-const COMMENTS_MIN = 0;
-const COMMENTS_MAX = 30;
-const AVATAR_MIN = 1;
-const AVATAR_MAX = 6;
+const LIKES_QUANTITY = {
+  likesMin: 15,
+  likesMax: 200,
+};
+
+const COMMENTS_QUANTITY = {
+  commentsMin: 0,
+  commentcMax: 30,
+};
+
+const AVATARS_QUANTITY = {
+  avatarMin: 1,
+  avatarMax: 6,
+};
+
+const FINAL_ARRAY_LENGTH = 25;
 
 // Массив вариантов имён
 const USER_NAMES = [
@@ -46,26 +56,26 @@ const getRandomElement = (elements) => elements[getRandomInteger(elements.length
 
 // Функция создания комментариев
 const createUsersComment = (_value, index) => {
-  const getId = index + 1;
+  const CommentId = index + (FINAL_ARRAY_LENGTH + 1);
   return {
-    id: getId,
-    avatar: `img/avatar-${ getRandomInteger(AVATAR_MIN, AVATAR_MAX) }.svg`,
+    id: CommentId,
+    avatar: `img/avatar-${ getRandomInteger(AVATARS_QUANTITY.avatarMin, AVATARS_QUANTITY.avatarMax) }.svg`,
     message: getRandomElement(COMMENTS_LIST),
     name: getRandomElement(USER_NAMES),
   };
 };
 
 const photoSpecification = (_value, index) => {
-  const comments = Array.from({ length: getRandomInteger(COMMENTS_MIN, COMMENTS_MAX) }, createUsersComment);
-  const getId = index + 1;
+  const comments = Array.from({ length: getRandomInteger(COMMENTS_QUANTITY.commentsMin, COMMENTS_QUANTITY.commentcMax) }, createUsersComment);
+  const photoId = index + 1;
   return {
-    id: getId,
-    url: `photos${ getId }.jpg`,
+    id: photoId,
+    url: `photos${ photoId }.jpg`,
     description: 'Авторское фото нашего прекрасного пользователя',
-    likes: getRandomInteger(LIKES_MIN, LIKES_MAX),
+    likes: getRandomInteger(LIKES_QUANTITY.likesMin, LIKES_QUANTITY.likesMax),
     comments,
   };
 };
 
-const similarPhotoSpecifications = () => Array.from({ length: 25 }, photoSpecification);
+const similarPhotoSpecifications = () => Array.from({ length: FINAL_ARRAY_LENGTH }, photoSpecification);
 similarPhotoSpecifications();
