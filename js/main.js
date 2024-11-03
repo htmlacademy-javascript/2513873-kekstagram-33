@@ -14,7 +14,7 @@ const AVATARS_QUANTITY = {
   avatarMax: 6,
 };
 
-const FINAL_ARRAY_LENGTH = 25;
+const PHOTO_SPECIFICATIONS_LENGTH = 25;
 
 // Массив вариантов имён
 const USER_NAMES = [
@@ -54,28 +54,29 @@ const getRandomInteger = (a, b) => {
 // фукция выбора случайного элемента из массива
 const getRandomElement = (elements) => elements[getRandomInteger(elements.length - 1, 0)];
 
+// Функция генерации идентификаторов
+const createIdGenerator = () => {
+  let currentId = 0;
+  return () => ++currentId;
+};
+
+const commentId = createIdGenerator();
+
 // Функция создания комментариев
-const createUsersComment = (_value, index) => {
-  const CommentId = index + (FINAL_ARRAY_LENGTH + 1);
-  return {
-    id: CommentId,
-    avatar: `img/avatar-${ getRandomInteger(AVATARS_QUANTITY.avatarMin, AVATARS_QUANTITY.avatarMax) }.svg`,
-    message: getRandomElement(COMMENTS_LIST),
-    name: getRandomElement(USER_NAMES),
-  };
-};
+const createUsersComment = () => ({
+  id: commentId(),
+  avatar: `img/avatar-${getRandomInteger(AVATARS_QUANTITY.avatarMin, AVATARS_QUANTITY.avatarMax)}.svg`,
+  message: getRandomElement(COMMENTS_LIST),
+  name: getRandomElement(USER_NAMES),
+});
 
-const photoSpecification = (_value, index) => {
-  const comments = Array.from({ length: getRandomInteger(COMMENTS_QUANTITY.commentsMin, COMMENTS_QUANTITY.commentcMax) }, createUsersComment);
-  const photoId = index + 1;
-  return {
-    id: photoId,
-    url: `photos${ photoId }.jpg`,
-    description: 'Авторское фото нашего прекрасного пользователя',
-    likes: getRandomInteger(LIKES_QUANTITY.likesMin, LIKES_QUANTITY.likesMax),
-    comments,
-  };
-};
+const photoSpecification = (_value, index) => ({
+  id: index + 1,
+  url: `photos/${index + 1}.jpg`,
+  description: 'Авторское фото нашего прекрасного пользователя',
+  likes: getRandomInteger(LIKES_QUANTITY.likesMin, LIKES_QUANTITY.likesMax),
+  comments: Array.from({ length: getRandomInteger(COMMENTS_QUANTITY.commentsMin, COMMENTS_QUANTITY.commentcMax) }, createUsersComment),
+});
 
-const similarPhotoSpecifications = () => Array.from({ length: FINAL_ARRAY_LENGTH }, photoSpecification);
+const similarPhotoSpecifications = () => Array.from({ length: PHOTO_SPECIFICATIONS_LENGTH }, photoSpecification);
 similarPhotoSpecifications();
