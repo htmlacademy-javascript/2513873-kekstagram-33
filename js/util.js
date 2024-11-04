@@ -6,12 +6,8 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-export {getRandomInteger};
-
 // фукция выбора случайного элемента из массива
 const getRandomElement = (elements) => elements[getRandomInteger(elements.length - 1, 0)];
-
-export {getRandomElement};
 
 // Функция генерации идентификаторов
 const createIdGenerator = () => {
@@ -19,6 +15,4 @@ const createIdGenerator = () => {
   return () => ++currentId;
 };
 
-const commentId = createIdGenerator();
-
-export {commentId};
+export {getRandomInteger, getRandomElement, createIdGenerator};

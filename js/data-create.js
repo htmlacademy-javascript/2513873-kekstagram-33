@@ -1,6 +1,4 @@
-import {getRandomInteger} from './util.js';
-import {getRandomElement} from './util.js';
-import {commentId} from './util.js';
+import {getRandomInteger, getRandomElement, createIdGenerator} from './util.js';
 
 // Основные числовые данные
 const LIKES_QUANTITY = {
@@ -46,6 +44,8 @@ const COMMENTS_LIST = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+
+const commentId = createIdGenerator();
 
 // Функция создания комментариев
 const createUsersComment = () => ({
