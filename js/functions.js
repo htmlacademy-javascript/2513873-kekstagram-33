@@ -33,3 +33,27 @@ function extractTheNumbers(stringToNumber) {
   return parseInt(stringResult, 10);
 }
 extractTheNumbers('2024 год очень знаменателен, в отличие от 2023го');
+
+
+// ЗАДАЧА 2 МОДУЛЯ 5 //
+
+// Функция перевода времени в минуты
+const getMinutes = (string) => {
+  const arrayFromString = string.split(':');
+  const minutes = (parseInt(arrayFromString[0], 10) * 60) + (parseInt(arrayFromString[1], 10));
+  return minutes;
+};
+
+const getMeetingTimeValid = (startWorkDay, endWorkDay, startMeeting, durationMeeting) => {
+  const startWorkDayInMinutes = getMinutes(startWorkDay);
+  const endWorkDayInMinutes = getMinutes(endWorkDay);
+  const startMeetingInMinutes = getMinutes(startMeeting);
+
+  return !!((startMeetingInMinutes >= startWorkDayInMinutes && (startMeetingInMinutes + durationMeeting) <= endWorkDayInMinutes));
+};
+
+getMeetingTimeValid('08:00', '17:30', '14:00', 90); // true
+getMeetingTimeValid('8:0', '10:0', '8:0', 120); // true
+getMeetingTimeValid('08:00', '14:30', '14:00', 90); // false
+getMeetingTimeValid('14:00', '17:30', '08:0', 90); // false
+getMeetingTimeValid('8:00', '17:30', '08:00', 900); // false
