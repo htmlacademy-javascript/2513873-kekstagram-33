@@ -37,17 +37,16 @@ extractTheNumbers('2024 год очень знаменателен, в отли�
 
 // ЗАДАЧА 2 МОДУЛЯ 5 //
 
+const minutesInHour = 60;
+
 // Функция перевода времени в минуты
-const getMinutes = (string) => {
-  const arrayFromString = string.split(':');
-  const minutes = (parseInt(arrayFromString[0], 10) * 60) + (parseInt(arrayFromString[1], 10));
-  return minutes;
-};
+const getMinutesFromString = string => string.split(':').reduce((getMinutesFromString, value) =>
+parseInt(value, 10) + getMinutesFromString * minutesInHour, 0);
 
 const getMeetingTimeValid = (startWorkDay, endWorkDay, startMeeting, durationMeeting) => {
-  const startWorkDayInMinutes = getMinutes(startWorkDay);
-  const endWorkDayInMinutes = getMinutes(endWorkDay);
-  const startMeetingInMinutes = getMinutes(startMeeting);
+  const startWorkDayInMinutes = getMinutesFromString(startWorkDay);
+  const endWorkDayInMinutes = getMinutesFromString(endWorkDay);
+  const startMeetingInMinutes = getMinutesFromString(startMeeting);
 
   return !!((startMeetingInMinutes >= startWorkDayInMinutes && (startMeetingInMinutes + durationMeeting) <= endWorkDayInMinutes));
 };
