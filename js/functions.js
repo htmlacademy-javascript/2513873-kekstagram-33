@@ -40,8 +40,8 @@ extractTheNumbers('2024 год очень знаменателен, в отли�
 const minutesInHour = 60;
 
 // Функция перевода времени в минуты
-const getMinutesFromString = string => string.split(':').reduce((getMinutesFromString, value) =>
-parseInt(value, 10) + getMinutesFromString * minutesInHour, 0);
+const getMinutesFromString = (string) => string.split(':').reduce((acc, value) =>
+  parseInt(value, 10) + acc * minutesInHour, 0);
 
 const getMeetingTimeValid = (startWorkDay, endWorkDay, startMeeting, durationMeeting) => {
   const startWorkDayInMinutes = getMinutesFromString(startWorkDay);
