@@ -1,3 +1,3 @@
-import {similarPhotoSpecifications} from './data-create.js';
-similarPhotoSpecifications();
+import {makeSimilarPhotoSpecifications} from './data-create.js';
+makeSimilarPhotoSpecifications();
 // console.log(similarPhotoSpecifications());

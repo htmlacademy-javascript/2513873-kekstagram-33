@@ -63,6 +63,6 @@ const photoSpecification = (_value, index) => ({
   comments: Array.from({ length: getRandomInteger(COMMENTS_QUANTITY.commentsMin, COMMENTS_QUANTITY.commentcMax) }, createUsersComment),
 });
 
-const similarPhotoSpecifications = () => Array.from({ length: PHOTO_SPECIFICATIONS_LENGTH }, photoSpecification);
+const makeSimilarPhotoSpecifications = () => Array.from({ length: PHOTO_SPECIFICATIONS_LENGTH }, photoSpecification);
 
-export {similarPhotoSpecifications};
+export {makeSimilarPhotoSpecifications};
