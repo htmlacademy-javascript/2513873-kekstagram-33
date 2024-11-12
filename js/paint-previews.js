@@ -27,7 +27,7 @@ crateUsersPhotos.forEach(({url, description, comments, likes}) => {
     pictureCommentData.appendChild(commentUserName);
 
     pictureCommentsBlock.appendChild(pictureCommentData);
-  };
+  }
 
   userPhotoContainer.querySelector('.picture__likes').textContent = likes;
 
