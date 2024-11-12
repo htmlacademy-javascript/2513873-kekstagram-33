@@ -1,3 +1,3 @@
 import {makeSimilarPhotoSpecifications} from './data-create.js';
 makeSimilarPhotoSpecifications();
-// console.log(similarPhotoSpecifications());
+import './paint-previews.js';
