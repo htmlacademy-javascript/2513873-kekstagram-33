@@ -10,25 +10,7 @@ crateUsersPhotos.forEach(({url, description, comments, likes}) => {
   const userPhotoContainer = templatePicture.cloneNode(true);
   userPhotoContainer.querySelector('.picture__img').src = url;
   userPhotoContainer.querySelector('.picture__img').alt = description;
-
-  for (let i = 0; i < comments.length; i++) {
-    const pictureCommentsBlock = userPhotoContainer.querySelector('.picture__comments');
-
-    const pictureCommentData = document.createElement('p');
-    pictureCommentData.id = comments[i].id;
-    const commentAvatar = document.createElement('img');
-    commentAvatar.src = comments[i].avatar;
-    pictureCommentData.appendChild(commentAvatar);
-    const commentText = document.createElement('span');
-    commentText.textContent = comments[i].message;
-    pictureCommentData.appendChild(commentText);
-    const commentUserName = document.createElement('span');
-    commentUserName.textContent = comments[i].name;
-    pictureCommentData.appendChild(commentUserName);
-
-    pictureCommentsBlock.appendChild(pictureCommentData);
-  }
-
+  userPhotoContainer.querySelector('.picture__comments').textContent = comments.length;
   userPhotoContainer.querySelector('.picture__likes').textContent = likes;
 
   fragment.appendChild(userPhotoContainer);
