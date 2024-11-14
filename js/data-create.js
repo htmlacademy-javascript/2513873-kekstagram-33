@@ -65,4 +65,4 @@ const photoSpecification = (_value, index) => ({
 
 const makeSimilarPhotoSpecifications = () => Array.from({ length: PHOTO_SPECIFICATIONS_LENGTH }, photoSpecification);
 
-export {makeSimilarPhotoSpecifications};
+export {makeSimilarPhotoSpecifications, createUsersComment};
