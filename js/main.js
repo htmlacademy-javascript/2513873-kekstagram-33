@@ -1,4 +1,6 @@
 import {makeSimilarPhotoSpecifications} from './data-create.js';
+import { createPreviews } from './paint-previews.js';
+
 makeSimilarPhotoSpecifications();
-import './paint-previews.js';
-import './big-picture-view.js'
+createPreviews();
+
