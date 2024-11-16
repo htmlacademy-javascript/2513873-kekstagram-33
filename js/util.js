@@ -15,6 +15,7 @@ const createIdGenerator = () => {
   return () => ++currentId;
 };
 
+// KeyCode клавиши escape
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 export {getRandomInteger, getRandomElement, createIdGenerator, isEscapeKey};
