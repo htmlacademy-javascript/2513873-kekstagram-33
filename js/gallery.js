@@ -19,7 +19,7 @@ const showFullscreenPhoto = (previews) => {
       (elem) => elem.id === currentId
     );
     openBigPhoto(photo);
-});
+  });
 
 };
 
