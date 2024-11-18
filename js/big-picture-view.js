@@ -12,13 +12,13 @@ const closeBigPictureButton = document.querySelector('.big-picture__cancel');
 
 // Создание комментариев
 
-const createComments = (preview) => {
-  const commentsCount = preview.comments.length;
+const createComments = (previews) => {
+  const commentsCount = previews.comments.length;
   shownCommentsCount.textContent = commentsCount;
   totalCommentsCount.textContent = commentsCount;
 
   socialComments.innerHTML = '';
-  preview.comments.forEach((comment) => {
+  previews.comments.forEach((comment) => {
     const newComment = socialCommentsItem.cloneNode(true);
     const userAvatar = newComment.querySelector('.social__picture');
     const userText = newComment.querySelector('.social__text');
@@ -33,12 +33,13 @@ const createComments = (preview) => {
 
 // Отрисовка большого фото
 
-const paintBigPhoto = (preview) => {
-  const comments = preview.comments;
-  bigPicture.querySelector('.big-picture__img').src = preview.url;
-  bigPicture.querySelector('.big-picture__img').alt = preview.description;
-  bigPicture.querySelector('.likes-count').textContent = preview.likes;
-  bigPicture.querySelector('.social__caption').textContent = preview.description;
+const paintBigPhoto = (previews) => {
+  const comments = previews.comments;
+  bigPicture.querySelector('.big-picture__img').dataset.id = previews.id;
+  bigPicture.querySelector('.big-picture__img img').src = previews.url;
+  bigPicture.querySelector('.big-picture__img img').alt = previews.description;
+  bigPicture.querySelector('.likes-count').textContent = previews.likes;
+  bigPicture.querySelector('.social__caption').textContent = previews.description;
   createComments(comments);
 };
 
@@ -54,7 +55,7 @@ const onBigPhotoEscKeydown = (evt) => {
 
 // Открывает большое фото
 
-const openBigPhoto = (preview) => {
+const openBigPhoto = (previews) => {
   bigPicture.classList.remove('hidden');
   document.addEventListener('keydown', onBigPhotoEscKeydown);
   body.classList.add('modal-open');
@@ -64,7 +65,7 @@ const openBigPhoto = (preview) => {
     bigPicture.classList.add('hidden');
   });
 
-  paintBigPhoto(preview);
+  paintBigPhoto(previews);
 };
 
 // Закрывает большое фото

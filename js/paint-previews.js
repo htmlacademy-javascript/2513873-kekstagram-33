@@ -24,3 +24,4 @@ const createPreviews = () => {
 photosContainer.appendChild(createPreviews());
 
 export {createPreviews};
+

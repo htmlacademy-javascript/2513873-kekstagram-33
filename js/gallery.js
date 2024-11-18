@@ -8,12 +8,13 @@ const showFullscreenPhoto = (previews) => {
   createPreviews(previews);
 
   photosContainer.addEventListener('click', (evt) => {
-    const currentPhoto = evt.target.closest('[data-id]');
+    const currentPhoto = evt.target.closest('a');
     if (!currentPhoto) {
       return;
     }
-    const photo = previews.find (
-      (elem) => elem.id === currentPhoto.dataset.id
+
+    const photo = previews.find(
+      (elem) => elem.id === currentPhoto.id
     );
     openBigPhoto(photo);
   });
