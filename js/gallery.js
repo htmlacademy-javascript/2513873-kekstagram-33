@@ -13,11 +13,13 @@ const showFullscreenPhoto = (previews) => {
       return;
     }
 
+    let currentId = currentPhoto.dataset.id;
+    currentId = Number(currentId);
     const photo = previews.find(
-      (elem) => elem.id === currentPhoto.id
+      (elem) => elem.id === currentId
     );
     openBigPhoto(photo);
-  });
+});
 
 };
 

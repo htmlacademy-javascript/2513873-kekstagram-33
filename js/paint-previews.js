@@ -9,8 +9,7 @@ const fragment = document.createDocumentFragment();
 const createPreviews = () => {
   crateUsersPhotos.forEach(({ url, description, comments, likes, id }) => {
     const userPhotoContainer = templatePicture.cloneNode(true);
-    const photo = userPhotoContainer.querySelector('.picture');
-    photo.dataset.id = id;
+    userPhotoContainer.querySelector('.picture').dataset.id = id;
     userPhotoContainer.querySelector('.picture__img').src = url;
     userPhotoContainer.querySelector('.picture__img').alt = description;
     userPhotoContainer.querySelector('.picture__comments').textContent = comments.length;
@@ -23,5 +22,5 @@ const createPreviews = () => {
 
 photosContainer.appendChild(createPreviews());
 
-export {createPreviews};
+export {createPreviews, crateUsersPhotos};
 
