@@ -13,12 +13,12 @@ const closeBigPictureButton = document.querySelector('.big-picture__cancel');
 // Создание комментариев
 
 const createComments = (previews) => {
-  const commentsCount = previews.comments.length;
+  const commentsCount = previews.length;
   shownCommentsCount.textContent = commentsCount;
   totalCommentsCount.textContent = commentsCount;
 
   socialComments.innerHTML = '';
-  previews.comments.forEach((comment) => {
+  previews.forEach((comment) => {
     const newComment = socialCommentsItem.cloneNode(true);
     const userAvatar = newComment.querySelector('.social__picture');
     const userText = newComment.querySelector('.social__text');
