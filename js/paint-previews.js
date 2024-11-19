@@ -1,26 +1,27 @@
-import { makeSimilarPhotoSpecifications } from './data-create.js';
-
 const photosContainer = document.querySelector('.pictures');
 const templatePicture = document.querySelector('#picture').content;
-const crateUsersPhotos = makeSimilarPhotoSpecifications();
 
-const fragment = document.createDocumentFragment();
+// Создание миниатюр
+const createPreview = (preview) => {
+  const userPhotoContainer = templatePicture.cloneNode(true);
+  userPhotoContainer.querySelector('.picture').dataset.id = preview.id;
+  userPhotoContainer.querySelector('.picture__img').src = preview.url;
+  userPhotoContainer.querySelector('.picture__img').alt = preview.description;
+  userPhotoContainer.querySelector('.picture__comments').textContent = preview.comments.length;
+  userPhotoContainer.querySelector('.picture__likes').textContent = preview.likes;
 
-const createPreviews = () => {
-  crateUsersPhotos.forEach(({ url, description, comments, likes, id }) => {
-    const userPhotoContainer = templatePicture.cloneNode(true);
-    userPhotoContainer.querySelector('.picture').dataset.id = id;
-    userPhotoContainer.querySelector('.picture__img').src = url;
-    userPhotoContainer.querySelector('.picture__img').alt = description;
-    userPhotoContainer.querySelector('.picture__comments').textContent = comments.length;
-    userPhotoContainer.querySelector('.picture__likes').textContent = likes;
-
-    fragment.appendChild(userPhotoContainer);
-  });
-  return fragment;
+ return userPhotoContainer;
 };
 
-photosContainer.appendChild(createPreviews());
+// Отрисовка миниатюр
+const paintPreviews = (previews) => {
+  const fragment = document.createDocumentFragment();
+  previews.forEach((preview) => {
+    const photo = createPreview(preview);
+    fragment.appendChild(photo);
+  });
+  photosContainer.appendChild(fragment);
+};
 
-export {createPreviews, crateUsersPhotos};
+export { paintPreviews };
 

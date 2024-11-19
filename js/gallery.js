@@ -1,11 +1,11 @@
 import { openBigPhoto } from './big-picture-view.js';
-import { createPreviews } from './paint-previews.js';
+import { paintPreviews } from './paint-previews.js';
 
 const photosContainer = document.querySelector('.pictures');
 
 const showFullscreenPhoto = (previews) => {
 
-  createPreviews(previews);
+  paintPreviews(previews);
 
   photosContainer.addEventListener('click', (evt) => {
     const currentPhoto = evt.target.closest('a');
