@@ -13,7 +13,7 @@ const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentsItem = bigPicture.querySelector('.social__comment');
 const closeBigPictureButton = document.querySelector('.big-picture__cancel');
 
-// Создание комментариев
+// Создание комментария
 const createComments = ({ avatar, name, message }) => {
   const newComment = socialCommentsItem.cloneNode(true);
   const userAvatar = newComment.querySelector('.social__picture');
@@ -43,7 +43,6 @@ let shownCommentCount = 0;
 const showPortionComments = () => {
   if (totalCommentsCount.length > COMMENTS_VISIBLE) {
     shownCommentCount += COMMENTS_VISIBLE;
-    shownCommentsCounter.textContent = totalCommentsCount.length;
     showComments(totalCommentsCount.splice(COMMENTS_MIN, COMMENTS_VISIBLE));
     commentsLoader.classList.remove('hidden');
   } else {
@@ -77,26 +76,6 @@ const onBigPhotoEscKeydown = (evt) => {
   }
 };
 
-// Открытие большого фото
-
-const openBigPhoto = (previews) => {
-  bigPicture.classList.remove('hidden');
-  document.addEventListener('keydown', onBigPhotoEscKeydown);
-  body.classList.add('modal-open');
-  closeBigPictureButton.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-  });
-  socialComments.innerHTML = '';
-  const comments = previews.comments;
-  totalCommentsCounter.textContent = comments.length;
-
-  totalCommentsCount = [...previews.comments];
-
-  showPortionComments();
-  paintBigPhoto(previews);
-};
-
 // Закрытие большого фото
 
 const closeBigPhoto = () => {
@@ -105,4 +84,20 @@ const closeBigPhoto = () => {
   document.removeEventListener('keydown', onBigPhotoEscKeydown);
 };
 
-export { showComments, openBigPhoto, closeBigPhoto };
+// Открытие большого фото
+
+const openBigPhoto = (previews) => {
+  bigPicture.classList.remove('hidden');
+  document.addEventListener('keydown', onBigPhotoEscKeydown);
+  body.classList.add('modal-open');
+  closeBigPictureButton.addEventListener('click', closeBigPhoto);
+  socialComments.innerHTML = '';
+  const comments = previews.comments;
+  totalCommentsCounter.textContent = comments.length;
+  totalCommentsCount = [...previews.comments];
+
+  showPortionComments();
+  paintBigPhoto(previews);
+};
+
+export { openBigPhoto };
