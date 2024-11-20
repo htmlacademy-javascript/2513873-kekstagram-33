@@ -12,6 +12,8 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialCommentsItem = bigPicture.querySelector('.social__comment');
 const closeBigPictureButton = document.querySelector('.big-picture__cancel');
+let totalCommentsCount;
+let shownCommentCount;
 
 // Создание комментария
 const createComments = ({ avatar, name, message }) => {
@@ -36,9 +38,7 @@ const showComments = (previews) => {
   socialComments.appendChild(commentsFragment);
 };
 
-// Отрисовка только 5ти комментариев к большому фото
-let totalCommentsCount;
-let shownCommentCount = 0;
+// Отрисовка 5ти комментариев к большому фото
 
 const showPortionComments = () => {
   if (totalCommentsCount.length > COMMENTS_VISIBLE) {
@@ -50,6 +50,7 @@ const showPortionComments = () => {
     showComments(totalCommentsCount);
     commentsLoader.classList.add('hidden');
   }
+
   shownCommentsCounter.textContent = shownCommentCount;
 };
 
@@ -71,17 +72,8 @@ const paintBigPhoto = (previews) => {
 const onBigPhotoEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
+    closeBigPhoto();
   }
-};
-
-// Закрытие большого фото
-
-const closeBigPhoto = () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onBigPhotoEscKeydown);
 };
 
 // Открытие большого фото
@@ -94,10 +86,20 @@ const openBigPhoto = (previews) => {
   socialComments.innerHTML = '';
   const comments = previews.comments;
   totalCommentsCounter.textContent = comments.length;
+  shownCommentsCounter.textContent = COMMENTS_VISIBLE;
   totalCommentsCount = [...previews.comments];
 
+  shownCommentCount = 0;
   showPortionComments();
   paintBigPhoto(previews);
 };
+
+// Закрытие большого фото
+
+function closeBigPhoto() {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onBigPhotoEscKeydown);
+}
 
 export { openBigPhoto };
