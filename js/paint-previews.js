@@ -10,7 +10,7 @@ const createPreview = (preview) => {
   userPhotoContainer.querySelector('.picture__comments').textContent = preview.comments.length;
   userPhotoContainer.querySelector('.picture__likes').textContent = preview.likes;
 
- return userPhotoContainer;
+  return userPhotoContainer;
 };
 
 // Отрисовка миниатюр
