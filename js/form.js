@@ -92,16 +92,18 @@ const openEditingForm = () => {
   }*/
 };
 
-const submitForm = uploadForm.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
-});
+const submitForm = () => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
+      uploadForm.submit();
+    }
+  });
+};
 
-uploadButton.addEventListener('click', function () {
-  submitForm;
-})
+uploadButton.addEventListener('click', () => {
+  submitForm();
+});
 
 // Закрытие формы
 function closeEditingForm() {
