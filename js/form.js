@@ -7,7 +7,7 @@ const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancelButton = uploadForm.querySelector('.img-upload__cancel');
 const uploadHashtag = uploadForm.querySelector('.text__hashtags');
 const uploadComment = uploadForm.querySelector('.text__description');
-//const uploadButton = uploadForm.querySelector('.img-upload__submit');
+const uploadButton = uploadForm.querySelector('.img-upload__submit');
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
@@ -91,6 +91,17 @@ const openEditingForm = () => {
     uploadButton.classList.add('disabled');
   }*/
 };
+
+const submitForm = uploadForm.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  if (pristine.validate()) {
+    uploadForm.submit();
+  }
+});
+
+uploadButton.addEventListener('click', function () {
+  submitForm;
+})
 
 // Закрытие формы
 function closeEditingForm() {
