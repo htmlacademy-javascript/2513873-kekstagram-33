@@ -51,9 +51,7 @@ pristine.addValidator(uploadHashtag, checkCount, errorMessages.COUNT_ERROR);
 pristine.addValidator(uploadHashtag, checkUniqueness, errorMessages.UNIQUENESS_ERROR);
 
 // Проверка комментариев
-
-const checkComment = (value) =>
-  value.length <= COMMENT_MAXLENGTH;
+const checkComment = (value) => value.length <= COMMENT_MAXLENGTH;
 
 pristine.addValidator(uploadComment, checkComment, errorMessages.COMMENT_MAXLENGTH_ERROR);
 
@@ -71,20 +69,13 @@ const onEditingFormEscKeydown = (evt) => {
 
 // Открытие формы редактирования
 const openEditingForm = () => {
-  uploadInput.addEventListener('change', (evt) => {
+  uploadInput.addEventListener('change', () => {
     uploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onEditingFormEscKeydown);
     body.classList.add('modal-open');
     uploadCancelButton.addEventListener('click', closeEditingForm);
   });
 };
-
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
-});
 
 // Закрытие формы
 function closeEditingForm() {
@@ -94,5 +85,13 @@ function closeEditingForm() {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);
 }
+
+// Проверка формы перед отправкой на сервер
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  if (pristine.validate()) {
+    uploadForm.submit();
+  }
+});
 
 export { openEditingForm };
