@@ -4,3 +4,5 @@ showFullscreenPhoto(makeSimilarPhotoSpecifications());
 
 import { openEditingForm } from './form.js';
 openEditingForm();
+
+import './slider.js';

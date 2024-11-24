@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
+import { sizeReset } from './slider.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -10,13 +11,11 @@ const uploadComment = uploadForm.querySelector('.text__description');
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
-const VALID_HASHTAG_STRING = /^#[a-zа-яё0-9]{1,}$/i;
-const HASHTAG_MAXLENGTH = 20;
+const VALID_HASHTAG_STRING = /^#[a-zа-яё0-9]{1,19}$/i;
 const errorMessages = {
-  INVALID_HASHTAG_STRING: 'Хэш-тег должен начинаться с #, состоять из букв и чисел без пробелов',
+  INVALID_HASHTAG_STRING: 'Хэш-тег должен начинаться с #, состоять из букв и чисел без пробелов, и быть не диннее 20 символов, включая #',
   COMMENT_MAXLENGTH_ERROR: `Максимальная длина комментария ${COMMENT_MAXLENGTH} символов`,
   COUNT_ERROR: `Нельзя указать больше ${HASHTAGS_MAXCOUNT} хэш-тегов`,
-  HASHTAG_MAXLENGTH_ERROR: `Максимальная длина хэш-тега ${HASHTAG_MAXLENGTH} символов`,
   UNIQUENESS_ERROR: 'Хэш-теги не должны повторяться',
 };
 
@@ -35,8 +34,6 @@ const getHashtags = (value) => {
 
 const checkSymbols = (value) => getHashtags(value).every((hashtag) => VALID_HASHTAG_STRING.test(hashtag));
 
-const checkLength = (value) => getHashtags(value).every((hashtag) => hashtag.length <= HASHTAG_MAXLENGTH);
-
 const checkCount = (value) => getHashtags(value).length <= HASHTAGS_MAXCOUNT;
 
 const checkUniqueness = (value) => {
@@ -46,7 +43,6 @@ const checkUniqueness = (value) => {
 };
 
 pristine.addValidator(uploadHashtag, checkSymbols, errorMessages.INVALID_HASHTAG_STRING);
-pristine.addValidator(uploadHashtag, checkLength, errorMessages.HASHTAG_MAXLENGTH_ERROR);
 pristine.addValidator(uploadHashtag, checkCount, errorMessages.COUNT_ERROR);
 pristine.addValidator(uploadHashtag, checkUniqueness, errorMessages.UNIQUENESS_ERROR);
 
@@ -81,6 +77,7 @@ const openEditingForm = () => {
 function closeEditingForm() {
   uploadForm.reset();
   pristine.reset();
+  sizeReset();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);
