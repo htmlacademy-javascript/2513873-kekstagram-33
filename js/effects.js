@@ -1,5 +1,5 @@
-import { imagePreview } from './slider';
-import { sizeReset } from './slider';
+import { imagePreview } from './slider.js';
+import { sizeReset } from './slider.js';
 
 const MIN_SLIDER_RANGE = 1;
 const MAX_SLIDER_RANGE = 100;
