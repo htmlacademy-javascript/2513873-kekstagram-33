@@ -1,4 +1,5 @@
 import { imagePreview } from './slider';
+import { sizeReset } from './slider';
 
 const MIN_SLIDER_RANGE = 1;
 const MAX_SLIDER_RANGE = 100;
@@ -117,6 +118,7 @@ const onEffectButtonChange = (evt) => {
 const onSliderUpdate = () => {
   if (isDefault()) {
     imagePreview.style.filter = 'none';
+    sizeReset();
   }
   effectsLevelValue.value = effectsLevelSlider.noUiSlider.get();
   imagePreview.style.filter = `${currentEffect.filter}(${effectsLevelValue.value}${currentEffect.unit})`;
