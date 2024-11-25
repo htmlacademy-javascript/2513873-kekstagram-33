@@ -1,6 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
 import { sizeReset } from './slider.js';
+import { resetEffects } from './effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -78,6 +79,7 @@ function closeEditingForm() {
   uploadForm.reset();
   pristine.reset();
   sizeReset();
+  resetEffects();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);

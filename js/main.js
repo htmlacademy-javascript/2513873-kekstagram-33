@@ -6,3 +6,4 @@ import { openEditingForm } from './form.js';
 openEditingForm();
 
 import './slider.js';
+import './effects.js';
