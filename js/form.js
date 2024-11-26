@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
-import { sizeReset } from './slider.js';
+import { sizeReset } from './scale.js';
 import { resetEffects } from './effects.js';
 
 const HASHTAGS_MAXCOUNT = 5;
