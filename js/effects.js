@@ -1,8 +1,4 @@
-import { imagePreview } from './scale.js';
 import { sizeReset } from './scale.js';
-
-const MIN_SLIDER_RANGE = 1;
-const MAX_SLIDER_RANGE = 100;
 
 const DEFAULT_EFFECT = {
   name: 'none',
@@ -14,8 +10,8 @@ const DEFAULT_EFFECT = {
 };
 
 const effectsData = {
-
   chrome: {
+    class: 'effects__preview--chrome',
     filter: 'grayscale',
     min: 0,
     max: 1,
@@ -24,6 +20,7 @@ const effectsData = {
   },
 
   sepia: {
+    class: 'effects__preview--sepia',
     filter: 'sepia',
     min: 0,
     max: 1,
@@ -32,6 +29,7 @@ const effectsData = {
   },
 
   marvin: {
+    class: 'effects__preview--marvin',
     filter: 'invert',
     min: 0,
     max: 100,
@@ -40,6 +38,7 @@ const effectsData = {
   },
 
   phobos: {
+    class: 'effects__preview--phobos',
     filter: 'blur',
     min: 0,
     max: 3,
@@ -47,7 +46,8 @@ const effectsData = {
     unit: 'px',
   },
 
-  heat: {
+  heat:  {
+    class: 'effects__preview--heat',
     filter: 'brightness',
     min: 1,
     max: 3,
@@ -58,19 +58,20 @@ const effectsData = {
   DEFAULT_EFFECT,
 };
 
+const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsLevelContainer = document.querySelector('.img-upload__effect-level');
 const effectsLevelSlider = document.querySelector('.effect-level__slider');
 const effectsLevelValue = document.querySelector('.effect-level__value');
 const effectsContainer = document.querySelector('.effects');
-let currentEffect = '';
+let currentEffect = DEFAULT_EFFECT;
 
 noUiSlider.create(effectsLevelSlider, {
   range: {
-    min: MIN_SLIDER_RANGE,
-    max: MAX_SLIDER_RANGE,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: MAX_SLIDER_RANGE,
-  step: MIN_SLIDER_RANGE,
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
   connect: 'lower',
 });
 
@@ -86,14 +87,15 @@ const changeSliderAbility = () => {
   }
 };
 
-const changeSlider = () => {
+const changeSlider = (effect) => {
   effectsLevelSlider.noUiSlider.updateOptions({
     range: {
-      min: DEFAULT_EFFECT.min,
-      max: DEFAULT_EFFECT.max,
+      min: currentEffect.min,
+      max: currentEffect.max,
     },
-    step: DEFAULT_EFFECT.step,
-    start: DEFAULT_EFFECT.max,
+    step: currentEffect.step,
+    start: currentEffect.max,
+    connect: 'lower',
   });
   changeSliderAbility();
 };
@@ -103,14 +105,8 @@ const onEffectButtonChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
-  currentEffect = (effect) => {
-    effectsData[effect].filter === evt.target.value
-  };
-  currentEffect();
-  // currentEffect = evt.target.value === effectsData.chrome.filter;
-  // console.log(currentEffect);
-  imagePreview.className = `effects__preview--${currentEffect(effect)}`;
-  console.log(imagePreview.className);
+  const getCurrentEffect = (effect) => effectsData[effect]
+  currentEffect = getCurrentEffect(evt.target.value);
   changeSlider();
 };
 
@@ -125,10 +121,12 @@ const onSliderUpdate = () => {
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
-  changeSlider();
+  noUiSlider.destroy(effectsLevelSlider)
 };
 
-effectsContainer.addEventListener('change', onEffectButtonChange);
-effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
+const callSlider = () => {
+  effectsContainer.addEventListener('change', onEffectButtonChange);
+  effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
+};
 
-export { resetEffects };
+export { resetEffects, callSlider };

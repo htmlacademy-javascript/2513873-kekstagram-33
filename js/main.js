@@ -5,5 +5,8 @@ showFullscreenPhoto(makeSimilarPhotoSpecifications());
 import { openEditingForm } from './form.js';
 openEditingForm();
 
-import './scale.js';
-import './effects.js';
+import { getNewSize } from './scale.js';
+getNewSize();
+
+import { callSlider } from './effects.js';
+callSlider();
