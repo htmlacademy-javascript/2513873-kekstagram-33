@@ -46,7 +46,7 @@ const effectsData = {
     unit: 'px',
   },
 
-  heat:  {
+  heat: {
     class: 'effects__preview--heat',
     filter: 'brightness',
     min: 1,
@@ -87,7 +87,7 @@ const changeSliderAbility = () => {
   }
 };
 
-const changeSlider = (effect) => {
+const changeSlider = () => {
   effectsLevelSlider.noUiSlider.updateOptions({
     range: {
       min: currentEffect.min,
@@ -105,7 +105,7 @@ const onEffectButtonChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
-  const getCurrentEffect = (effect) => effectsData[effect]
+  const getCurrentEffect = (effect) => effectsData[effect];
   currentEffect = getCurrentEffect(evt.target.value);
   changeSlider();
 };
@@ -121,7 +121,7 @@ const onSliderUpdate = () => {
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
-  noUiSlider.destroy(effectsLevelSlider)
+  noUiSlider.destroy(effectsLevelSlider);
 };
 
 const callSlider = () => {
