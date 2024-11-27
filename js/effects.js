@@ -10,6 +10,13 @@ const DEFAULT_EFFECT = {
 };
 
 const effectsData = {
+
+  none: {
+    filter: DEFAULT_EFFECT.filter,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
+  },
+
   chrome: {
     class: 'effects__preview--chrome',
     filter: 'grayscale',
@@ -77,7 +84,7 @@ noUiSlider.create(effectsLevelSlider, {
 
 effectsLevelContainer.classList.add('hidden');
 
-const isDefault = () => currentEffect === DEFAULT_EFFECT;
+const isDefault = () => currentEffect.filter === DEFAULT_EFFECT.filter;
 
 const changeSliderAbility = () => {
   if (isDefault()) {
@@ -121,7 +128,7 @@ const onSliderUpdate = () => {
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
-  noUiSlider.destroy(effectsLevelSlider);
+  changeSlider();
 };
 
 const callSlider = () => {
