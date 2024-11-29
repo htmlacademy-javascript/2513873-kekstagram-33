@@ -22,7 +22,6 @@
 *,
 *::before,
 *::after {
-  margin-bottom: 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -367,7 +366,9 @@ main {
   outline: auto 5px highlight;
 }
 
-
+.img-upload__error-text {
+  margin-bottom: 20px;
+}
 /* Окно для редактирования изображения
    ========================================================================== */
 
