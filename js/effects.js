@@ -61,8 +61,6 @@ const effectsData = {
     step: 0.1,
     unit: '',
   },
-
-  DEFAULT_EFFECT,
 };
 
 const imagePreview = document.querySelector('.img-upload__preview img');
@@ -112,18 +110,26 @@ const onEffectButtonChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
-  const getCurrentEffect = (effect) => effectsData[effect];
-  currentEffect = getCurrentEffect(evt.target.value);
-  changeSlider();
+  const effectName = evt.target.value;
+  changeCurrentEffect(effectName);
 };
 
+// Установка нового эффекта
+function changeCurrentEffect (effectName) {
+  const getCurrentEffect = (effect) => effectsData[effect];
+  currentEffect = getCurrentEffect(effectName);
+  changeSlider();
+}
+
+// Обновление слайдера
 const onSliderUpdate = () => {
+  const currentEffectValue = effectsLevelSlider.noUiSlider.get();
   if (isDefault()) {
     imagePreview.style.filter = 'none';
     sizeReset();
   }
-  effectsLevelValue.value = effectsLevelSlider.noUiSlider.get();
-  imagePreview.style.filter = `${currentEffect.filter}(${effectsLevelValue.value}${currentEffect.unit})`;
+  imagePreview.style.filter = `${currentEffect.filter}(${currentEffectValue}${currentEffect.unit})`;
+  effectsLevelValue.value = currentEffectValue;
 };
 
 const resetEffects = () => {
