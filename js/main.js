@@ -1,9 +1,8 @@
 import {makeSimilarPhotoSpecifications} from './data-create.js';
 import { showFullscreenPhoto } from './gallery.js';
-showFullscreenPhoto(makeSimilarPhotoSpecifications());
-
 import { openEditingForm } from './form.js';
-openEditingForm();
+import { getNewSize } from './scale.js';
 
-import './slider.js';
-import './effects.js';
+showFullscreenPhoto(makeSimilarPhotoSpecifications());
+openEditingForm();
+getNewSize();

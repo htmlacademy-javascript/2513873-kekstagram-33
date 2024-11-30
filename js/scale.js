@@ -15,24 +15,26 @@ const sizeImage = (value) => {
   sizeScaleControl.value = `${value}%`;
 };
 
-smallerButton.addEventListener('click', () => {
-  currentSize = parseInt(sizeScaleControl.value, 10);
-  let newSize = currentSize - SIZE_STEP;
-  if (newSize < SIZE_MIN) {
-    newSize = SIZE_MIN;
-  }
-  sizeImage(newSize);
-});
+const getNewSize = () => {
+  smallerButton.addEventListener('click', () => {
+    currentSize = parseInt(sizeScaleControl.value, 10);
+    let newSize = currentSize - SIZE_STEP;
+    if (newSize < SIZE_MIN) {
+      newSize = SIZE_MIN;
+    }
+    sizeImage(newSize);
+  });
 
-biggerButton.addEventListener('click', () => {
-  currentSize = parseInt(sizeScaleControl.value, 10);
-  let newSize = currentSize + SIZE_STEP;
-  if (newSize > SIZE_MAX) {
-    newSize = SIZE_MAX;
-  }
-  sizeImage(newSize);
-});
+  biggerButton.addEventListener('click', () => {
+    currentSize = parseInt(sizeScaleControl.value, 10);
+    let newSize = currentSize + SIZE_STEP;
+    if (newSize > SIZE_MAX) {
+      newSize = SIZE_MAX;
+    }
+    sizeImage(newSize);
+  });
+};
 
 const sizeReset = () => sizeImage(SIZE_DEFAULT);
 
-export {sizeReset, imagePreview};
+export { getNewSize, sizeReset };

@@ -1,8 +1,4 @@
-import { imagePreview } from './slider.js';
-import { sizeReset } from './slider.js';
-
-const MIN_SLIDER_RANGE = 1;
-const MAX_SLIDER_RANGE = 100;
+import { sizeReset } from './scale.js';
 
 const DEFAULT_EFFECT = {
   name: 'none',
@@ -13,9 +9,16 @@ const DEFAULT_EFFECT = {
   unit: '',
 };
 
-const EFFECTS_DATA = [
-  {
-    name: 'chrome',
+const effectsData = {
+
+  none: {
+    filter: DEFAULT_EFFECT.filter,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
+  },
+
+  chrome: {
+    class: 'effects__preview--chrome',
     filter: 'grayscale',
     min: 0,
     max: 1,
@@ -23,8 +26,8 @@ const EFFECTS_DATA = [
     unit: '',
   },
 
-  {
-    name: 'sepia',
+  sepia: {
+    class: 'effects__preview--sepia',
     filter: 'sepia',
     min: 0,
     max: 1,
@@ -32,8 +35,8 @@ const EFFECTS_DATA = [
     unit: '',
   },
 
-  {
-    name: 'marvin',
+  marvin: {
+    class: 'effects__preview--marvin',
     filter: 'invert',
     min: 0,
     max: 100,
@@ -41,8 +44,8 @@ const EFFECTS_DATA = [
     unit: '%',
   },
 
-  {
-    name: 'phobos',
+  phobos: {
+    class: 'effects__preview--phobos',
     filter: 'blur',
     min: 0,
     max: 3,
@@ -50,37 +53,36 @@ const EFFECTS_DATA = [
     unit: 'px',
   },
 
-  {
-    name: 'heat',
+  heat: {
+    class: 'effects__preview--heat',
     filter: 'brightness',
     min: 1,
     max: 3,
     step: 0.1,
     unit: '',
   },
+};
 
-  DEFAULT_EFFECT,
-];
-
+const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsLevelContainer = document.querySelector('.img-upload__effect-level');
 const effectsLevelSlider = document.querySelector('.effect-level__slider');
 const effectsLevelValue = document.querySelector('.effect-level__value');
 const effectsContainer = document.querySelector('.effects');
 let currentEffect = DEFAULT_EFFECT;
 
-noUiSlider.create(effectsLevelSlider, {
+const createSlider = () => noUiSlider.create(effectsLevelSlider, {
   range: {
-    min: MIN_SLIDER_RANGE,
-    max: MAX_SLIDER_RANGE,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: MAX_SLIDER_RANGE,
-  step: 1,
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
   connect: 'lower',
 });
 
 effectsLevelContainer.classList.add('hidden');
 
-const isDefault = () => currentEffect === DEFAULT_EFFECT;
+const isDefault = () => currentEffect.filter === DEFAULT_EFFECT.filter;
 
 const changeSliderAbility = () => {
   if (isDefault()) {
@@ -108,20 +110,38 @@ const onEffectButtonChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
-  currentEffect = EFFECTS_DATA.find(
-    (effect) => effect.name === evt.target.value
-  );
-  imagePreview.className = `effects__preview--${currentEffect.name}`;
-  changeSlider();
+  const effectName = evt.target.value;
+  changeCurrentEffect(effectName);
 };
 
+// Установка нового эффекта
+function changeCurrentEffect(effect) {
+  currentEffect = effectsData[effect];
+  changeSlider();
+}
+
+// Обновление слайдера
 const onSliderUpdate = () => {
+  const currentEffectValue = effectsLevelSlider.noUiSlider.get();
   if (isDefault()) {
     imagePreview.style.filter = 'none';
     sizeReset();
   }
-  effectsLevelValue.value = effectsLevelSlider.noUiSlider.get();
-  imagePreview.style.filter = `${currentEffect.filter}(${effectsLevelValue.value}${currentEffect.unit})`;
+  imagePreview.style.filter = `${currentEffect.filter}(${currentEffectValue}${currentEffect.unit})`;
+  effectsLevelValue.value = currentEffectValue;
+};
+
+const initSlider = () => {
+  createSlider();
+  onSliderUpdate();
+  effectsContainer.addEventListener('change', onEffectButtonChange);
+  effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
+
+};
+
+const resetSlider = () => {
+  effectsContainer.removeEventListener('change', onEffectButtonChange);
+  effectsLevelSlider.noUiSlider.destroy();
 };
 
 const resetEffects = () => {
@@ -129,7 +149,4 @@ const resetEffects = () => {
   changeSlider();
 };
 
-effectsContainer.addEventListener('change', onEffectButtonChange);
-effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
-
-export { resetEffects };
+export { resetEffects, initSlider, resetSlider };
