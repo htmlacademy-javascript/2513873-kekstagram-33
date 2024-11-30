@@ -70,7 +70,7 @@ const effectsLevelValue = document.querySelector('.effect-level__value');
 const effectsContainer = document.querySelector('.effects');
 let currentEffect = DEFAULT_EFFECT;
 
-noUiSlider.create(effectsLevelSlider, {
+const createSlider = () => noUiSlider.create(effectsLevelSlider, {
   range: {
     min: DEFAULT_EFFECT.min,
     max: DEFAULT_EFFECT.max,
@@ -115,9 +115,8 @@ const onEffectButtonChange = (evt) => {
 };
 
 // Установка нового эффекта
-function changeCurrentEffect (effectName) {
-  const getCurrentEffect = (effect) => effectsData[effect];
-  currentEffect = getCurrentEffect(effectName);
+function changeCurrentEffect(effect) {
+  currentEffect = effectsData[effect];
   changeSlider();
 }
 
@@ -132,14 +131,22 @@ const onSliderUpdate = () => {
   effectsLevelValue.value = currentEffectValue;
 };
 
+const initSlider = () => {
+  createSlider();
+  onSliderUpdate();
+  effectsContainer.addEventListener('change', onEffectButtonChange);
+  effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
+
+};
+
+const resetSlider = () => {
+  effectsContainer.removeEventListener('change', onEffectButtonChange);
+  effectsLevelSlider.noUiSlider.destroy();
+};
+
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
   changeSlider();
 };
 
-const callSlider = () => {
-  effectsContainer.addEventListener('change', onEffectButtonChange);
-  effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
-};
-
-export { resetEffects, callSlider };
+export { resetEffects, initSlider, resetSlider };

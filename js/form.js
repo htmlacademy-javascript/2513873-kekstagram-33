@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
 import { sizeReset } from './scale.js';
-import { resetEffects } from './effects.js';
+import { resetEffects, initSlider, resetSlider } from './effects.js';
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
@@ -71,6 +71,7 @@ const openEditingForm = () => {
     document.addEventListener('keydown', onEditingFormEscKeydown);
     body.classList.add('modal-open');
     uploadCancelButton.addEventListener('click', closeEditingForm);
+    initSlider();
   });
 };
 
@@ -80,6 +81,7 @@ function closeEditingForm() {
   pristine.reset();
   sizeReset();
   resetEffects();
+  resetSlider();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);
@@ -88,9 +90,26 @@ function closeEditingForm() {
 // Проверка формы перед отправкой на сервер
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  if (pristine.validate()) {
+
+  // Проверяем заполнены ли поля
+  const hasValidHashtag = uploadHashtag.value.trim() !== '';
+  const hasValidComment = uploadComment.value.trim() !== '';
+
+  // Присваиваем true пумолчанию, если поля пустые, поскольку они не обязательные
+  const isValidHashtag = !hasValidHashtag || pristine.validate(uploadHashtag);
+  const isValidComment = !hasValidComment || pristine.validate(uploadComment);
+
+  if (isValidHashtag && isValidComment) {
     uploadForm.submit();
   }
 });
+
+// Убираем текст ошибок pristine при очистке полей ввода
+uploadHashtag.addEventListener('keydown', () => {
+  if (uploadHashtag.value !== '' || uploadComment.value !== '') {
+    pristine.reset();
+  }
+});
+
 
 export { openEditingForm };
