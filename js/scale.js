@@ -1,40 +1,48 @@
-const SIZE_MIN = 25;
-const SIZE_MAX = 100;
-const SIZE_DEFAULT = 100;
-const SIZE_STEP = 25;
+const SCALE_MIN = 25;
+const SCALE_MAX = 100;
+const SCALE_DEFAULT = 100;
+const SCALE_STEP = 25;
 
 const imagePreview = document.querySelector('.img-upload__preview img');
-const sizeScale = document.querySelector('.img-upload__scale');
-const sizeScaleControl = sizeScale.querySelector('.scale__control--value');
-const smallerButton = sizeScale.querySelector('.scale__control--smaller');
-const biggerButton = sizeScale.querySelector('.scale__control--bigger');
-let currentSize = SIZE_DEFAULT;
+const scaleSize = document.querySelector('.img-upload__scale');
+const scaleSizeControl = scaleSize.querySelector('.scale__control--value');
+const smallerButton = scaleSize.querySelector('.scale__control--smaller');
+const biggerButton = scaleSize.querySelector('.scale__control--bigger');
+let currentScale = SCALE_DEFAULT;
 
-const sizeImage = (value) => {
+const setNewScale = (value) => {
   imagePreview.style.transform = `scale(${value / 100})`;
-  sizeScaleControl.value = `${value}%`;
+  scaleSizeControl.value = `${value}%`;
 };
 
-const getNewSize = () => {
-  smallerButton.addEventListener('click', () => {
-    currentSize = parseInt(sizeScaleControl.value, 10);
-    let newSize = currentSize - SIZE_STEP;
-    if (newSize < SIZE_MIN) {
-      newSize = SIZE_MIN;
-    }
-    sizeImage(newSize);
-  });
 
-  biggerButton.addEventListener('click', () => {
-    currentSize = parseInt(sizeScaleControl.value, 10);
-    let newSize = currentSize + SIZE_STEP;
-    if (newSize > SIZE_MAX) {
-      newSize = SIZE_MAX;
-    }
-    sizeImage(newSize);
-  });
+const onSmallerButtonClick = () => {
+  currentScale = parseInt(scaleSizeControl.value, 10);
+  let newScale = currentScale - SCALE_STEP;
+  if (newScale < SCALE_MIN) {
+    newScale = SCALE_MIN;
+  }
+  setNewScale(newScale);
 };
 
-const sizeReset = () => sizeImage(SIZE_DEFAULT);
+const onBiggerButtonClick = () => {
+  currentScale = parseInt(scaleSizeControl.value, 10);
+  let newScale = currentScale + SCALE_STEP;
+  if (newScale > SCALE_MAX) {
+    newScale = SCALE_MAX;
+  }
+  setNewScale(newScale);
+};
 
-export { getNewSize, sizeReset };
+const initImageScale = () => {
+  smallerButton.addEventListener('click', onSmallerButtonClick);
+  biggerButton.addEventListener('click', onBiggerButtonClick);
+};
+
+const scaleReset = () => {
+  setNewScale(SCALE_DEFAULT);
+  smallerButton.removeEventListener('click', initImageScale(onSmallerButtonClick));
+  biggerButton.removeEventListener('click', initImageScale(onBiggerButtonClick));
+};
+
+export { initImageScale, scaleReset };

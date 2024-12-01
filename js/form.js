@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
-import { sizeReset } from './scale.js';
+import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
 
 const HASHTAGS_MAXCOUNT = 5;
@@ -43,14 +43,28 @@ const checkUniqueness = (value) => {
   return modifiedHashtags.length === new Set(modifiedHashtags).size;
 };
 
+const checkEmptyHashtagInput = () => {
+  const hasValidHashtag = uploadHashtag.value.trim() !== '';
+  const isValidHashtag = !hasValidHashtag || pristine.validate(uploadHashtag);
+  return isValidHashtag;
+};
+
 pristine.addValidator(uploadHashtag, checkSymbols, errorMessages.INVALID_HASHTAG_STRING);
 pristine.addValidator(uploadHashtag, checkCount, errorMessages.COUNT_ERROR);
 pristine.addValidator(uploadHashtag, checkUniqueness, errorMessages.UNIQUENESS_ERROR);
+pristine.addValidator(uploadHashtag, checkEmptyHashtagInput);
 
 // Проверка комментариев
 const checkComment = (value) => value.length <= COMMENT_MAXLENGTH;
 
+const checkEmptyCommentInput = () => {
+  const hasValidComment = uploadComment.value.trim() !== '';
+  const isValidComment = !hasValidComment || pristine.validate(uploadComment);
+  return isValidComment;
+};
+
 pristine.addValidator(uploadComment, checkComment, errorMessages.COMMENT_MAXLENGTH_ERROR);
+pristine.addValidator(uploadComment, checkEmptyCommentInput);
 
 // Проверка, является ли текстовое поле активным
 const isInputOnFocus = () =>
@@ -79,7 +93,7 @@ const openEditingForm = () => {
 function closeEditingForm() {
   uploadForm.reset();
   pristine.reset();
-  sizeReset();
+  scaleReset();
   resetEffects();
   resetSlider();
   uploadOverlay.classList.add('hidden');
@@ -91,15 +105,7 @@ function closeEditingForm() {
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  // Проверяем заполнены ли поля
-  const hasValidHashtag = uploadHashtag.value.trim() !== '';
-  const hasValidComment = uploadComment.value.trim() !== '';
-
-  // Присваиваем true пумолчанию, если поля пустые, поскольку они не обязательные
-  const isValidHashtag = !hasValidHashtag || pristine.validate(uploadHashtag);
-  const isValidComment = !hasValidComment || pristine.validate(uploadComment);
-
-  if (isValidHashtag && isValidComment) {
+  if (pristine.validate()) {
     uploadForm.submit();
   }
 });
