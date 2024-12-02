@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { body } from './big-picture-view.js';
-import { sizeReset } from './scale.js';
+import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
 
 const HASHTAGS_MAXCOUNT = 5;
@@ -29,7 +29,7 @@ const pristine = new Pristine(uploadForm, {
 // Проверка хэштэгов
 
 const getHashtags = (value) => {
-  const hashtags = value.trim().split(/\s+/);
+  const hashtags = value.trim().split(/\s+/).filter(Boolean);
   return hashtags;
 };
 
@@ -79,7 +79,7 @@ const openEditingForm = () => {
 function closeEditingForm() {
   uploadForm.reset();
   pristine.reset();
-  sizeReset();
+  scaleReset();
   resetEffects();
   resetSlider();
   uploadOverlay.classList.add('hidden');
@@ -91,15 +91,7 @@ function closeEditingForm() {
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  // Проверяем заполнены ли поля
-  const hasValidHashtag = uploadHashtag.value.trim() !== '';
-  const hasValidComment = uploadComment.value.trim() !== '';
-
-  // Присваиваем true пумолчанию, если поля пустые, поскольку они не обязательные
-  const isValidHashtag = !hasValidHashtag || pristine.validate(uploadHashtag);
-  const isValidComment = !hasValidComment || pristine.validate(uploadComment);
-
-  if (isValidHashtag && isValidComment) {
+  if (pristine.validate()) {
     uploadForm.submit();
   }
 });

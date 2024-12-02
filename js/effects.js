@@ -1,4 +1,4 @@
-import { sizeReset } from './scale.js';
+import { scaleReset } from './scale.js';
 
 const DEFAULT_EFFECT = {
   name: 'none',
@@ -106,7 +106,7 @@ const changeSlider = () => {
 };
 
 // Обработчик смены эффекта
-const onEffectButtonChange = (evt) => {
+const onEffectsContainerChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
@@ -125,7 +125,7 @@ const onSliderUpdate = () => {
   const currentEffectValue = effectsLevelSlider.noUiSlider.get();
   if (isDefault()) {
     imagePreview.style.filter = 'none';
-    sizeReset();
+    scaleReset();
   }
   imagePreview.style.filter = `${currentEffect.filter}(${currentEffectValue}${currentEffect.unit})`;
   effectsLevelValue.value = currentEffectValue;
@@ -134,13 +134,13 @@ const onSliderUpdate = () => {
 const initSlider = () => {
   createSlider();
   onSliderUpdate();
-  effectsContainer.addEventListener('change', onEffectButtonChange);
+  effectsContainer.addEventListener('change', onEffectsContainerChange);
   effectsLevelSlider.noUiSlider.on('update', onSliderUpdate);
 
 };
 
 const resetSlider = () => {
-  effectsContainer.removeEventListener('change', onEffectButtonChange);
+  effectsContainer.removeEventListener('change', onEffectsContainerChange);
   effectsLevelSlider.noUiSlider.destroy();
 };
 
