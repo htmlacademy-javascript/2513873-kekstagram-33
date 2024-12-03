@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
-import { body } from './big-picture-view.js';
 import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
+import { showSendingError } from './errors-and-success.js';
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
@@ -13,6 +13,7 @@ const errorMessages = {
   UNIQUENESS_ERROR: 'Хэш-теги не должны повторяться',
 };
 
+const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -88,13 +89,31 @@ function closeEditingForm() {
 }
 
 // Проверка формы перед отправкой на сервер
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const setFormSubmit = (onSuccess) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
-});
+    if (pristine.validate()) {
+      const formData = new FormData(evt.target);
+      fetch(
+        'https://32.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      ).then((response) => {
+        if (response.ok) {
+          onSuccess();
+        } else {
+          showSendingError('Не удалось отправить форму. Попробуйте ещё раз');
+        }
+      })
+      .catch(() => {
+        showSendingError('Не удалось отправить форму. Попробуйте ещё раз');
+      });
+    }
+  })
+};
 
 // Убираем текст ошибок pristine при очистке полей ввода
 uploadHashtag.addEventListener('keydown', () => {
@@ -104,4 +123,4 @@ uploadHashtag.addEventListener('keydown', () => {
 });
 
 
-export { openEditingForm };
+export { openEditingForm, setFormSubmit, closeEditingForm };

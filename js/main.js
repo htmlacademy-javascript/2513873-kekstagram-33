@@ -1,7 +1,8 @@
-import {makeSimilarPhotoSpecifications} from './data-create.js';
-import { showFullscreenPhoto } from './gallery.js';
+//import {makeSimilarPhotoSpecifications} from './data-create.js';
+import './network.js';
+import './errors-and-success.js';
 import { openEditingForm } from './form.js';
 import { initImageScale } from './scale.js';
 
-showFullscreenPhoto(makeSimilarPhotoSpecifications());
+//showFullscreenPhoto(makeSimilarPhotoSpecifications());
 openEditingForm(initImageScale());

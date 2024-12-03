@@ -102,4 +102,4 @@ function closeBigPhoto() {
   document.removeEventListener('keydown', onBigPhotoEscKeydown);
 }
 
-export { openBigPhoto, body };
+export { openBigPhoto };
