@@ -92,6 +92,7 @@ function closeEditingForm() {
 const setFormSubmit = (onSuccess) => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    document.removeEventListener('keydown', onEditingFormEscKeydown);
 
     if (pristine.validate()) {
       const formData = new FormData(evt.target);
@@ -105,11 +106,11 @@ const setFormSubmit = (onSuccess) => {
         if (response.ok) {
           onSuccess();
         } else {
-          showSendingError('Не удалось отправить форму. Попробуйте ещё раз');
+          showSendingError();
         }
       })
         .catch(() => {
-          showSendingError('Не удалось отправить форму. Попробуйте ещё раз');
+          showSendingError();
         });
     }
   });
