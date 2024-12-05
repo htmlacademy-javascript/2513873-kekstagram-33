@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
-import { showSendingError } from './errors-and-success.js';
+import { showSendingError, showSendingSuccess } from './errors-and-success.js';
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
@@ -105,6 +105,7 @@ const setFormSubmit = (onSuccess) => {
       ).then((response) => {
         if (response.ok) {
           onSuccess();
+          showSendingSuccess();
         } else {
           showSendingError();
         }
