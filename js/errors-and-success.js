@@ -1,5 +1,5 @@
 import { isEscapeKey, closeMessage, showMessage, submitButtonAccess } from './util.js';
-import { submitButton, submitButtonDefaultText} from './form.js';
+import { onEditingFormEscKeydown, submitButton, SUBMIT_BUTTON_DEFAULT_TEXT} from './form.js';
 
 const ERROR_SHOW_TIME = 5000;
 
@@ -14,7 +14,7 @@ const dataErrorContainer = templateDataError.cloneNode(true);
 
 //Показ и закрытие сообщения об успешной отправке формы
 const closeSendingSuccess = () => {
-  closeMessage(successButton, onSuccessButtonClick, onSuccessContainerEscKeydown, onSuccessContainerMouseClick, successContainer);
+  closeMessage(successButton, onSuccessButtonClick, onSuccessContainerEscKeydown ,onSuccessContainerMouseClick, successContainer);
 };
 
 function onSuccessButtonClick () {
@@ -41,7 +41,8 @@ const showSendingSuccess = () => {
 // Показ и закрытие ошибки об отправке файла
 const closeSendingError = () => {
   closeMessage(errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick, errorContainer);
-  submitButtonAccess(submitButton, false, submitButtonDefaultText);
+  submitButtonAccess(submitButton, false, SUBMIT_BUTTON_DEFAULT_TEXT);
+  document.addEventListener('keydown', onEditingFormEscKeydown);
 };
 
 function onErrorButtonClick () {
@@ -65,6 +66,13 @@ const showSendingError = () => {
   showMessage(errorContainer, errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick);
 };
 
+// Проверка открыто ли сообщение об ошибке отправки данных
+const isSendingErrorShown = () => {
+  if (showSendingError) {
+    return true;
+  }
+};
+
 // Показ и закрытие сообщения об ошибке загрузки данных
 const showDataError = () => {
   document.body.append(dataErrorContainer);
@@ -73,4 +81,4 @@ const showDataError = () => {
   }, ERROR_SHOW_TIME);
 };
 
-export { showSendingError, showSendingSuccess, showDataError };
+export { closeSendingError, showSendingError, showSendingSuccess, isSendingErrorShown, showDataError };

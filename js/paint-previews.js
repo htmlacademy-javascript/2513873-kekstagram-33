@@ -15,6 +15,11 @@ const createPreview = (preview) => {
 
 // Отрисовка миниатюр
 const paintPreviews = (previews) => {
+  let image = photosContainer.querySelector('.picture');
+  while(image) {
+    image.remove();
+    image = photosContainer.querySelector('.picture');
+  }
   const fragment = document.createDocumentFragment();
   previews.forEach((preview) => {
     const photo = createPreview(preview);

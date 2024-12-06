@@ -3,10 +3,13 @@ import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
 import { showSendingError, showSendingSuccess } from './errors-and-success.js';
 import { sendData } from './network.js';
+import { uploadPhoto } from './upload-photo.js';
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
 const VALID_HASHTAG_STRING = /^#[a-zа-яё0-9]{1,19}$/i;
+const SUBMIT_BUTTON_DEFAULT_TEXT = 'ОПУБЛИКОВАТЬ';
+const SUBMIT_BUTTON_SENDING_TEXT = 'ПУБЛИКУЮ...';
 const errorMessages = {
   INVALID_HASHTAG_STRING: 'Хэш-тег должен начинаться с #, состоять из букв и чисел без пробелов, и быть не диннее 20 символов, включая #',
   COMMENT_MAXLENGTH_ERROR: `Максимальная длина комментария ${COMMENT_MAXLENGTH} символов`,
@@ -14,10 +17,6 @@ const errorMessages = {
   UNIQUENESS_ERROR: 'Хэш-теги не должны повторяться',
 };
 
-const submitButtonDefaultText = 'ОПУБЛИКОВАТЬ';
-const submitButtonSendingtText = 'ПУБЛИКУЮ...';
-
-const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -70,14 +69,16 @@ const onEditingFormEscKeydown = (evt) => {
   }
 };
 
+
 // Открытие формы редактирования
 const openEditingForm = () => {
   uploadInput.addEventListener('change', () => {
     uploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onEditingFormEscKeydown);
-    body.classList.add('modal-open');
+    document.body.classList.add('modal-open');
     uploadCancelButton.addEventListener('click', closeEditingForm);
     initSlider();
+    uploadPhoto();
   });
 };
 
@@ -89,9 +90,9 @@ function closeEditingForm () {
   resetEffects();
   resetSlider();
   uploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);
-  submitButtonAccess(submitButton, false, submitButtonDefaultText);
+  submitButtonAccess(submitButton, false, SUBMIT_BUTTON_DEFAULT_TEXT);
 }
 
 // Убираем текст ошибок pristine при очистке полей ввода
@@ -101,29 +102,33 @@ const cleanPristineErrors = () => {
       pristine.reset();
     }
   });
-  document.addEventListener('keydown', onEditingFormEscKeydown);
+};
+
+// Функция отправки формы
+const sendFormSubmit = (data) => {
+  document.removeEventListener('keydown', onEditingFormEscKeydown);
+  cleanPristineErrors();
+  submitButtonAccess(submitButton, false, SUBMIT_BUTTON_SENDING_TEXT);
+  sendData(new FormData(data))
+    .then(() => {
+      showSendingSuccess();
+      closeEditingForm();
+    })
+    .catch(() => {
+      showSendingError();
+    })
+    .finally(submitButtonAccess(submitButton, true, SUBMIT_BUTTON_SENDING_TEXT));
 };
 
 // Проверка формы перед отправкой на сервер
-const setFormSubmit = () => {
+const checkFormSubmit = () => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    document.removeEventListener('keydown', onEditingFormEscKeydown);
-    cleanPristineErrors();
 
     if (pristine.validate()) {
-      submitButtonAccess(submitButton, false, submitButtonDefaultText);
-      sendData(new FormData(evt.target))
-        .then(() => {
-          showSendingSuccess();
-          closeEditingForm();
-        })
-        .catch(() => {
-          showSendingError();
-        })
-        .finally(submitButtonAccess(submitButton, true, submitButtonSendingtText));
+      sendFormSubmit(evt.target);
     }
   });
 };
 
-export { openEditingForm, setFormSubmit, closeEditingForm, submitButton, submitButtonDefaultText };
+export { onEditingFormEscKeydown, openEditingForm, checkFormSubmit, closeEditingForm, submitButton, SUBMIT_BUTTON_DEFAULT_TEXT };

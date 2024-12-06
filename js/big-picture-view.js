@@ -3,7 +3,6 @@ import { isEscapeKey } from './util.js';
 const COMMENTS_VISIBLE = 5;
 const COMMENTS_MIN = 0;
 
-const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
 const commentsCounter = bigPicture.querySelector('.social__comment-count');
 const shownCommentsCounter = commentsCounter.querySelector('.social__comment-shown-count');
@@ -81,7 +80,7 @@ const onBigPhotoEscKeydown = (evt) => {
 const openBigPhoto = (previews) => {
   bigPicture.classList.remove('hidden');
   document.addEventListener('keydown', onBigPhotoEscKeydown);
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   closeBigPictureButton.addEventListener('click', closeBigPhoto);
   socialComments.innerHTML = '';
   const comments = previews.comments;
@@ -98,7 +97,7 @@ const openBigPhoto = (previews) => {
 
 function closeBigPhoto () {
   bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPhotoEscKeydown);
 }
 

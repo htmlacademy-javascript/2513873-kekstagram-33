@@ -40,5 +40,15 @@ const submitButtonAccess = (button, condition, value) => {
   button.textContent = value;
 };
 
+// Функция устранения дребезга
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 export {getRandomInteger, getRandomElement, createIdGenerator, isEscapeKey, closeMessage, showMessage,
-  submitButtonAccess };
+  submitButtonAccess, debounce };
