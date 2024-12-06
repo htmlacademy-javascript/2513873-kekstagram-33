@@ -96,7 +96,7 @@ const openBigPhoto = (previews) => {
 
 // Закрытие большого фото
 
-function closeBigPhoto() {
+function closeBigPhoto () {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPhotoEscKeydown);

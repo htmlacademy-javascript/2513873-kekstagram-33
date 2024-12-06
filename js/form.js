@@ -82,7 +82,7 @@ const openEditingForm = () => {
 };
 
 // Закрытие формы
-function closeEditingForm() {
+function closeEditingForm () {
   uploadForm.reset();
   pristine.reset();
   scaleReset();
@@ -94,11 +94,22 @@ function closeEditingForm() {
   submitButtonAccess(submitButton, false, submitButtonDefaultText);
 }
 
+// Убираем текст ошибок pristine при очистке полей ввода
+const cleanPristineErrors = () => {
+  uploadHashtag.addEventListener('keydown', () => {
+    if (uploadHashtag.value !== '' || uploadComment.value !== '') {
+      pristine.reset();
+    }
+  });
+  document.addEventListener('keydown', onEditingFormEscKeydown);
+};
+
 // Проверка формы перед отправкой на сервер
 const setFormSubmit = () => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     document.removeEventListener('keydown', onEditingFormEscKeydown);
+    cleanPristineErrors();
 
     if (pristine.validate()) {
       submitButtonAccess(submitButton, false, submitButtonDefaultText);
@@ -115,11 +126,4 @@ const setFormSubmit = () => {
   });
 };
 
-// Убираем текст ошибок pristine при очистке полей ввода
-uploadHashtag.addEventListener('keydown', () => {
-  if (uploadHashtag.value !== '' || uploadComment.value !== '') {
-    pristine.reset();
-  }
-});
-
-export { openEditingForm, setFormSubmit, closeEditingForm };
+export { openEditingForm, setFormSubmit, closeEditingForm, submitButton, submitButtonDefaultText };

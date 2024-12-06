@@ -115,7 +115,7 @@ const onEffectsContainerChange = (evt) => {
 };
 
 // Установка нового эффекта
-function changeCurrentEffect(effect) {
+function changeCurrentEffect (effect) {
   currentEffect = effectsData[effect];
   changeSlider();
 }

@@ -5,5 +5,4 @@ import { setFormSubmit, closeEditingForm } from './form.js';
 
 openEditingForm(initImageScale());
 getData();
-//sendData();
 setFormSubmit(closeEditingForm);

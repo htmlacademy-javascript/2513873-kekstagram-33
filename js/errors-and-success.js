@@ -1,4 +1,5 @@
-import { isEscapeKey, closeMessage, showMessage } from './util.js';
+import { isEscapeKey, closeMessage, showMessage, submitButtonAccess } from './util.js';
+import { submitButton, submitButtonDefaultText} from './form.js';
 
 const ERROR_SHOW_TIME = 5000;
 
@@ -40,6 +41,7 @@ const showSendingSuccess = () => {
 // Показ и закрытие ошибки об отправке файла
 const closeSendingError = () => {
   closeMessage(errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick, errorContainer);
+  submitButtonAccess(submitButton, false, submitButtonDefaultText);
 };
 
 function onErrorButtonClick () {
@@ -61,9 +63,6 @@ function onErrorContainerMouseClick (evt) {
 
 const showSendingError = () => {
   showMessage(errorContainer, errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick);
-  setTimeout(() => {
-    errorContainer.remove();
-  }, ERROR_SHOW_TIME);
 };
 
 // Показ и закрытие сообщения об ошибке загрузки данных
