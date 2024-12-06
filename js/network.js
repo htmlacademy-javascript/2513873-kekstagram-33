@@ -4,7 +4,7 @@ import { showDataError } from './errors-and-success.js';
 import { sortPhotos } from './filters-change.js';
 
 const URL_DATA_GET = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-const URL_DATA_SEND = 'https://32.javascript.htmlacademy.pro/kekstagram';
+const URL_DATA_SEND = 'https://32.javascript.htmlacademy.pro/kekstagram/';
 const SEND_METHOD = 'POST';
 const imagesFilters = document.querySelector('.img-filters');
 
