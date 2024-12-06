@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, closeMessage, showMessage } from './util.js';
 
 const ERROR_SHOW_TIME = 5000;
 
@@ -13,10 +13,7 @@ const dataErrorContainer = templateDataError.cloneNode(true);
 
 //Показ и закрытие сообщения об успешной отправке формы
 const closeSendingSuccess = () => {
-  successButton.removeEventListener('click', onSuccessButtonClick);
-  document.removeEventListener('keydown', onSuccessContainerEscKeydown);
-  document.removeEventListener('click', onSuccessContainerMouseClick);
-  successContainer.remove();
+  closeMessage(successButton, onSuccessButtonClick, onSuccessContainerEscKeydown, onSuccessContainerMouseClick, successContainer);
 };
 
 function onSuccessButtonClick () {
@@ -37,18 +34,12 @@ function onSuccessContainerMouseClick (evt) {
 }
 
 const showSendingSuccess = () => {
-  document.body.append(successContainer);
-  successButton.addEventListener('click', onSuccessButtonClick);
-  document.addEventListener('keydown', onSuccessContainerEscKeydown);
-  document.addEventListener('click', onSuccessContainerMouseClick);
+  showMessage(successContainer, successButton, onSuccessButtonClick, onSuccessContainerEscKeydown, onSuccessContainerMouseClick);
 };
 
 // Показ и закрытие ошибки об отправке файла
 const closeSendingError = () => {
-  errorButton.removeEventListener('click', onErrorButtonClick);
-  document.removeEventListener('keydown', onErrorContainerEscKeydown);
-  document.removeEventListener('click', onErrorContainerMouseClick);
-  errorContainer.remove();
+  closeMessage(errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick, errorContainer);
 };
 
 function onErrorButtonClick () {
@@ -69,11 +60,7 @@ function onErrorContainerMouseClick (evt) {
 }
 
 const showSendingError = () => {
-  errorButton.addEventListener('click', onErrorButtonClick);
-  document.addEventListener('keydown', onErrorContainerEscKeydown);
-  document.addEventListener('click', onErrorContainerMouseClick);
-
-  document.body.append(errorContainer);
+  showMessage(errorContainer, errorButton, onErrorButtonClick, onErrorContainerEscKeydown, onErrorContainerMouseClick);
   setTimeout(() => {
     errorContainer.remove();
   }, ERROR_SHOW_TIME);

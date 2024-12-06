@@ -1,7 +1,8 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, submitButtonAccess } from './util.js';
 import { scaleReset } from './scale.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
 import { showSendingError, showSendingSuccess } from './errors-and-success.js';
+import { sendData } from './network.js';
 
 const HASHTAGS_MAXCOUNT = 5;
 const COMMENT_MAXLENGTH = 140;
@@ -13,6 +14,9 @@ const errorMessages = {
   UNIQUENESS_ERROR: 'Хэш-теги не должны повторяться',
 };
 
+const submitButtonDefaultText = 'ОПУБЛИКОВАТЬ';
+const submitButtonSendingtText = 'ПУБЛИКУЮ...';
+
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -20,6 +24,7 @@ const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancelButton = uploadForm.querySelector('.img-upload__cancel');
 const uploadHashtag = uploadForm.querySelector('.text__hashtags');
 const uploadComment = uploadForm.querySelector('.text__description');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -86,33 +91,26 @@ function closeEditingForm() {
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditingFormEscKeydown);
+  submitButtonAccess(submitButton, false, submitButtonDefaultText);
 }
 
 // Проверка формы перед отправкой на сервер
-const setFormSubmit = (onSuccess) => {
+const setFormSubmit = () => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     document.removeEventListener('keydown', onEditingFormEscKeydown);
 
     if (pristine.validate()) {
-      const formData = new FormData(evt.target);
-      fetch(
-        'https://32.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      ).then((response) => {
-        if (response.ok) {
-          onSuccess();
+      submitButtonAccess(submitButton, false, submitButtonDefaultText);
+      sendData(new FormData(evt.target))
+        .then(() => {
           showSendingSuccess();
-        } else {
-          showSendingError();
-        }
-      })
+          closeEditingForm();
+        })
         .catch(() => {
           showSendingError();
-        });
+        })
+        .finally(submitButtonAccess(submitButton, true, submitButtonSendingtText));
     }
   });
 };
@@ -123,6 +121,5 @@ uploadHashtag.addEventListener('keydown', () => {
     pristine.reset();
   }
 });
-
 
 export { openEditingForm, setFormSubmit, closeEditingForm };

@@ -18,4 +18,27 @@ const createIdGenerator = () => {
 // KeyCode клавиши escape
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, getRandomElement, createIdGenerator, isEscapeKey };
+// Функция закрытия сообщений
+const closeMessage = (button, onClick, onEsc, onMouseClick, container) => {
+  button.removeEventListener('click', onClick);
+  document.removeEventListener('keydown', onEsc);
+  document.removeEventListener('click', onMouseClick);
+  container.remove();
+};
+
+// Функция показа сообщений
+const showMessage = (container, button, onClick, onEsc, onMouseClick) => {
+  document.body.append(container);
+  button.addEventListener('click', onClick);
+  document.addEventListener('keydown', onEsc);
+  document.addEventListener('click', onMouseClick);
+};
+
+// Функция блокировки/разблокировки кнопки
+const submitButtonAccess = (button, condition, value) => {
+  button.disabled = condition;
+  button.textContent = value;
+};
+
+export {getRandomInteger, getRandomElement, createIdGenerator, isEscapeKey, closeMessage, showMessage,
+  submitButtonAccess };
